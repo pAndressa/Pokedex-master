@@ -23,7 +23,7 @@ namespace ApiPokemon.Repository
             using var connection = new NpgsqlConnection(_conexao);
             pokemon.Id = Guid.NewGuid();
             var query = "INSERT INTO pokemons(id, pokedex_index, name, hp, attack, defense, special_attack, special_defense, speed, generation) " +
-                "VALUES(@pokemon.Id, @PokedexIndex, @Name, @Hp, @Attack, @Defense, @SpecialAttack, @SpecialDefense, @Speed, @Generation)";
+                "VALUES(@Id, @PokedexIndex, @Name, @Hp, @Attack, @Defense, @SpecialAttack, @SpecialDefense, @Speed, @Generation)";
             var result = connection.Execute(query, pokemon);
             return result;
         }
@@ -31,7 +31,7 @@ namespace ApiPokemon.Repository
         public IEnumerable<Pokemon> GetPokemons()
         {
             using var connection = new NpgsqlConnection(_conexao);
-            var pokemons = connection.Query<Pokemon>("SELECT pokedex_index, name, hp, attack, defense, special_attack, special_defense, speed, generation FROM pokemons");
+            var pokemons = connection.Query<Pokemon>("SELECT pokedex_index as pokedexIndex, name, hp, attack, defense, special_attack as SpecialAttack, special_defense as SpecialDefense, speed, generation FROM pokemons");
             return pokemons;
         }
     }
